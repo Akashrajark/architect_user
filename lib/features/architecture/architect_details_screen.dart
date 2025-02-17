@@ -10,7 +10,7 @@ class ArchitectDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -19,11 +19,11 @@ class ArchitectDetailsScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
               icon: CircleAvatar(
-                backgroundColor: secondaryColor,
+                backgroundColor: primaryColor,
                 radius: 15,
                 child: Icon(
                   Icons.chevron_left,
-                  color: primaryColor,
+                  color: secondaryColor,
                 ),
               ),
             ),
@@ -125,7 +125,10 @@ class ArchitectDetailsScreen extends StatelessWidget {
                 ontap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePlan()),
+                    MaterialPageRoute(
+                        builder: (context) => HomePlan(
+                              isPaid: true,
+                            )),
                   );
                 },
               ),

@@ -1,3 +1,4 @@
+import 'package:dream_home_user/features/home/home_screen.dart';
 import 'package:dream_home_user/features/signin/signin_screen.dart';
 import 'package:dream_home_user/theme/app_theme.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: const SigninScreen(),
+      home: const HomeScreen(),
     );
   }
 }

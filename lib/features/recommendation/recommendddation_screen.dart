@@ -94,7 +94,9 @@ class RecommendationScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePlan(),
+                                builder: (context) => HomePlan(
+                                  isPaid: true,
+                                ),
                               ));
                         },
                       ),
