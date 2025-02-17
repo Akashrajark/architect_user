@@ -13,8 +13,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool pushNotifications = true;
-  bool faceID = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
