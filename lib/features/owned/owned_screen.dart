@@ -7,27 +7,25 @@ class OwnedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-              itemBuilder: (context, index) => HomePlanCard(
-                    ontap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomePlan(
-                                    isPaid: false,
-                                  )));
-                    },
-                    showListTile: true,
-                  ),
-              separatorBuilder: (context, index) => SizedBox(
-                    height: 10,
-                  ),
-              itemCount: 3),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) => HomePlanCard(
+          ontap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePlan(isPaid: false),
+              ),
+            );
+          },
+          showListTile: true,
+        ),
+        separatorBuilder: (context, index) => const SizedBox(height: 20),
+        itemCount: 3,
+      ),
     );
   }
 }

@@ -15,11 +15,11 @@ class HomePlanCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: ontap,
-      child: Card(
+      child: Material(
+        color: Colors.grey[200],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        margin: EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,6 +36,7 @@ class HomePlanCard extends StatelessWidget {
               padding: EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "HomePlan Name",
@@ -72,18 +73,18 @@ class HomePlanCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  if (showListTile)
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            'https://randomuser.me/api/portraits/men/1.jpg'),
+                      ),
+                      title: Text("Architect Name"),
+                      subtitle: Text("Professional Architect"),
+                    ),
                 ],
               ),
             ),
-            if (showListTile)
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://randomuser.me/api/portraits/men/1.jpg'),
-                ),
-                title: Text("Architect Name"),
-                subtitle: Text("Professional Architect"),
-              ),
           ],
         ),
       ),
