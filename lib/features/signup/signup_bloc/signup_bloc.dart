@@ -30,7 +30,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
             } catch (dbError) {
               Logger().e('Database Insert Error: $dbError');
               // Delete user since inserting details failed
-              await supabaseClient.auth.admin.deleteUser(userId);
+              // await supabaseClient.auth.admin.deleteUser(userId);
               emit(SignUpFailureState(
                   message: 'Sign-up failed due to database error.'));
             }

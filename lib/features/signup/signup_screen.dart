@@ -130,8 +130,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     userDetails: {
                                       'email': _emailController.text.trim(),
                                       'phone': _phoneController.text.trim(),
-                                      'user_name':
-                                          _usernameController.text.trim(),
+                                      'name': _usernameController.text.trim(),
                                     },
                                   ),
                                 );
