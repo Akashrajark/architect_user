@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final String labelText;
+  final bool isLoading;
+  final String? labelText;
   final String? title;
   final double width;
   final int? maxLines, minLines;
@@ -9,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final IconData? prefixIconData, suffixIconData;
   final EdgeInsetsGeometry? contentPadding;
+  final TextInputType? keyboardType;
 
   const CustomTextFormField({
     super.key,
@@ -22,6 +24,8 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.contentPadding,
+    required this.isLoading,
+    this.keyboardType,
   });
 
   @override
@@ -38,18 +42,20 @@ class CustomTextFormField extends StatelessWidget {
             ),
           if (title != null) const SizedBox(height: 5),
           TextFormField(
+            enabled: !isLoading,
             controller: controller,
             validator: validator,
             minLines: minLines,
             maxLines: maxLines,
             textInputAction: TextInputAction.next,
+            keyboardType: keyboardType,
             decoration: InputDecoration(
               contentPadding: contentPadding ??
                   ((prefixIconData != null || suffixIconData != null)
                       ? null
                       : const EdgeInsets.symmetric(
                           horizontal: 10,
-                          vertical: 12,
+                          vertical: 15,
                         )),
               hintText: labelText,
               suffixIcon: suffixIconData != null

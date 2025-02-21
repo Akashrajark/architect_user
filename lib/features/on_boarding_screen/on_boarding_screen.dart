@@ -1,13 +1,16 @@
 import 'package:dream_home_user/common_widgets.dart/custom_button.dart';
-import 'package:dream_home_user/features/signup/signup_screen.dart';
+import 'package:dream_home_user/features/signin/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../home_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
   @override
-  _OnBoardingScreenState createState() => _OnBoardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
@@ -38,6 +41,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     TextAlign.left,
     TextAlign.center,
   ];
+
+  @override
+  void initState() {
+    Future.delayed(
+        const Duration(
+          milliseconds: 100,
+        ), () {
+      User? currentUser = Supabase.instance.client.auth.currentUser;
+      if (currentUser != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+            (route) => false);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +148,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignupScreen(),
+                                builder: (context) => SigninScreen(),
                               ));
                         },
                         label: 'Next',

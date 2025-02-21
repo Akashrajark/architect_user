@@ -1,8 +1,7 @@
 import 'package:dream_home_user/common_widgets.dart/custom_alert_dialog.dart';
 import 'package:dream_home_user/common_widgets.dart/custom_button.dart';
-import 'package:dream_home_user/common_widgets.dart/custom_image_picker_button.dart';
 import 'package:dream_home_user/common_widgets.dart/custom_text_formfield.dart';
-import 'package:dream_home_user/features/home/home_screen.dart';
+import 'package:dream_home_user/features/home_screen.dart';
 import 'package:dream_home_user/features/signin/signin_screen.dart';
 import 'package:dream_home_user/theme/app_theme.dart';
 import 'package:dream_home_user/util/value_validator.dart';
@@ -25,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool isObscure = true;
 
   @override
   void initState() {
@@ -75,103 +75,148 @@ class _SignupScreenState extends State<SignupScreen> {
           builder: (context, state) {
             return Center(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Form(
-                    key: _formkey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Create an account',
-                          style: TextStyle(fontSize: 25),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(32),
+                          bottomRight: Radius.circular(32),
                         ),
-                        SizedBox(height: 20),
-                        CustomImagePickerButton(
-                          onPick: (file) {},
+                        child: Image.asset(
+                          'assets/images/cover_photo.jpg',
+                          height: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.cover,
                         ),
-                        SizedBox(height: 20),
-                        CustomTextFormField(
-                          labelText: 'username',
-                          controller: _usernameController,
-                          validator: notEmptyValidator,
-                        ),
-                        SizedBox(height: 15),
-                        CustomTextFormField(
-                          labelText: 'email',
-                          controller: _emailController,
-                          validator: emailValidator,
-                        ),
-                        SizedBox(height: 15),
-                        CustomTextFormField(
-                          suffixIconData: Icons.visibility,
-                          labelText: 'password',
-                          controller: _passwordController,
-                          validator: passwordValidator,
-                        ),
-                        SizedBox(height: 15),
-                        CustomTextFormField(
-                          labelText: 'phone',
-                          controller: _phoneController,
-                          validator: phoneNumberValidator,
-                        ),
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: CustomButton(
-                            inverse: true,
-                            onPressed: () {
-                              if (_formkey.currentState!.validate()) {
-                                BlocProvider.of<SignupBloc>(context).add(
-                                  SignUpUserEvent(
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim(),
-                                    userDetails: {
-                                      'email': _emailController.text.trim(),
-                                      'phone': _phoneController.text.trim(),
-                                      'name': _usernameController.text.trim(),
-                                    },
-                                  ),
-                                );
-                              }
-                            },
-                            label: 'Signup',
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Already have an account?",
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                              ),
+                              'Create an account',
+                              style: TextStyle(fontSize: 25),
                             ),
-                            TextButton(
+                            SizedBox(height: 15),
+                            Text(
+                              'Name',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 5),
+                            CustomTextFormField(
+                              isLoading: state is SignUpLoadingState,
+                              labelText: 'name',
+                              controller: _usernameController,
+                              validator: alphabeticWithSpaceValidator,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Phone',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 5),
+                            CustomTextFormField(
+                              isLoading: state is SignUpLoadingState,
+                              labelText: 'Phone',
+                              controller: _phoneController,
+                              validator: phoneNumberValidator,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Email',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 5),
+                            CustomTextFormField(
+                              isLoading: state is SignUpLoadingState,
+                              labelText: 'Email',
+                              controller: _emailController,
+                              validator: emailValidator,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'Password',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 5),
+                            TextFormField(
+                                enabled: state is! SignUpLoadingState,
+                                controller: _passwordController,
+                                obscureText: isObscure,
+                                validator: passwordValidator,
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        isObscure = !isObscure;
+                                        setState(() {});
+                                      },
+                                      icon: Icon(isObscure
+                                          ? Icons.visibility_off
+                                          : Icons.visibility)),
+                                  border: const OutlineInputBorder(),
+                                  hintText: 'Password',
+                                )),
+                            SizedBox(height: 15),
+                            CustomButton(
+                              isLoading: state is SignUpLoadingState,
+                              inverse: true,
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SigninScreen(),
-                                  ),
-                                );
+                                if (_formkey.currentState!.validate()) {
+                                  BlocProvider.of<SignupBloc>(context).add(
+                                    SignUpUserEvent(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                      userDetails: {
+                                        'email': _emailController.text.trim(),
+                                        'phone': _phoneController.text.trim(),
+                                        'name': _usernameController.text.trim(),
+                                      },
+                                    ),
+                                  );
+                                }
                               },
-                              child: Text(
-                                "Log in",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
+                              label: 'Signup',
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Already have an account?",
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SigninScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Log in",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

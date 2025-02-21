@@ -37,7 +37,7 @@ class _CustomSearchState extends State<CustomSearch> {
   Widget build(BuildContext context) {
     return Material(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(32),
         side: BorderSide(
           color: Theme.of(context).colorScheme.outline,
         ),
@@ -57,8 +57,8 @@ class _CustomSearchState extends State<CustomSearch> {
               decoration: InputDecoration(
                 hintStyle: widget.textStyle,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 12,
+                  horizontal: 18,
+                  vertical: 15,
                 ),
                 filled: false,
                 isCollapsed: true,

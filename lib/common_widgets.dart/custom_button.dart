@@ -33,7 +33,7 @@ class _CustomButtonState extends State<CustomButton> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow,
@@ -46,7 +46,7 @@ class _CustomButtonState extends State<CustomButton> {
             blurRadius: !_hovering ? 0 : 2,
           ),
         ],
-        color: widget.inverse ? widget.backGroundColor : Colors.white,
+        color: Colors.transparent,
         border: widget.inverse
             ? null
             : Border.all(
@@ -54,50 +54,59 @@ class _CustomButtonState extends State<CustomButton> {
                 width: 1,
               ),
       ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: widget.onPressed,
-        autofocus: widget.inverse,
-        onHover: (value) {
-          _hovering = value;
-          setState(() {});
-        },
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: widget.label != null ? 15 : 15,
-            right: widget.iconData != null ? 10 : 15,
-            top: widget.iconData != null ? 7 : 15,
-            bottom: widget.iconData != null ? 7 : 15,
-          ),
-          child: Row(
-            mainAxisAlignment: widget.label != null && widget.iconData != null
-                ? MainAxisAlignment.spaceBetween
-                : MainAxisAlignment.center,
-            children: [
-              if (widget.label != null && !widget.isLoading)
-                Text(
-                  widget.label!,
-                  textAlign: TextAlign.end,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: widget.inverse ? Colors.white : widget.color,
-                      ),
-                ),
-              SizedBox(
-                  width:
-                      widget.label != null && widget.iconData != null ? 5 : 0),
-              if (widget.iconData != null && !widget.isLoading)
-                Icon(
-                  widget.iconData,
-                  color: widget.inverse ? Colors.white : widget.color,
-                  size: 20,
-                ),
-              if (widget.isLoading)
-                CupertinoActivityIndicator(
-                  radius: 10,
-                  color: widget.inverse ? Colors.white : widget.color,
-                ),
-            ],
+      child: Material(
+        color: widget.inverse ? widget.backGroundColor : Colors.white,
+        borderRadius: BorderRadius.circular(32),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(32),
+          onTap: widget.onPressed,
+          autofocus: widget.inverse,
+          onHover: (value) {
+            _hovering = value;
+            setState(() {});
+          },
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: widget.label != null
+                  ? 15
+                  : widget.iconData != null
+                      ? 13
+                      : 15,
+              right: widget.iconData != null ? 13 : 15,
+              top: widget.iconData != null ? 13 : 15,
+              bottom: widget.iconData != null ? 13 : 15,
+            ),
+            child: Row(
+              mainAxisAlignment: widget.label != null && widget.iconData != null
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.center,
+              children: [
+                if (widget.label != null && !widget.isLoading)
+                  Text(
+                    widget.label!,
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: widget.inverse ? Colors.white : widget.color,
+                        ),
+                  ),
+                SizedBox(
+                    width: widget.label != null && widget.iconData != null
+                        ? 5
+                        : 0),
+                if (widget.iconData != null && !widget.isLoading)
+                  Icon(
+                    widget.iconData,
+                    color: widget.inverse ? Colors.white : widget.color,
+                    size: 20,
+                  ),
+                if (widget.isLoading)
+                  CupertinoActivityIndicator(
+                    radius: 10,
+                    color: widget.inverse ? Colors.white : widget.color,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
