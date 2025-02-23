@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color backgroundColor = Color(0xFFB5C2C9);
+const Color backgroundColor = Color.fromARGB(255, 255, 255, 255);
 const Color titleColor = Color(0xFF353535);
 const Color textColor = Color(0xFF353535);
 const Color mutedIconColor = Color(0xFFA1A1A1);
@@ -40,10 +40,11 @@ const onErrorColor =
 
 const Color outlineColor = Color(0xFFD7DEE0); //border color
 const Color onSecondaryContainer = Color(0xFF000000); //text color
-const Color shadowColor = Color.fromARGB(15, 0, 0, 0);
+const Color shadowColor = Color.fromARGB(112, 0, 0, 0);
 const Color dividerColor = Color(0xFFE6E6E6);
 
 ThemeData appTheme = ThemeData(
+  shadowColor: shadowColor,
   useMaterial3: true,
   brightness: Brightness.light,
   scaffoldBackgroundColor: backgroundColor,

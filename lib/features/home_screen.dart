@@ -29,6 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: _selectedIndex == 0
+          ? null
+          : AppBar(
+              backgroundColor: Colors.transparent,
+            ),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [

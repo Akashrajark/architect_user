@@ -58,44 +58,42 @@ class _OwnedScreenState extends State<OwnedScreen> {
           }
         },
         builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(),
-              body: Column(
-                children: [
-                  if (state is HomeplansLoadingState)
-                    Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  if (state is HomeplansGetSuccessState && _homeplans.isEmpty)
-                    Center(
-                      child: Text("No Homeplan found!"),
-                    ),
-                  Expanded(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 0),
-                      itemBuilder: (context, index) => HomePlanCard(
-                        cardData: _homeplans[index],
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePlanDetail(
-                                owend: true,
-                                homeplanId: _homeplans[index]['id'],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 10,
-                      ),
-                      itemCount: _homeplans.length,
-                    ),
+          return Column(
+            children: [
+              if (state is HomeplansLoadingState)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+              if (state is HomeplansGetSuccessState && _homeplans.isEmpty)
+                Center(
+                  child: Text("No Homeplan found!"),
+                ),
+              Expanded(
+                child: ListView.separated(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  itemBuilder: (context, index) => HomePlanCard(
+                    cardData: _homeplans[index],
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePlanDetail(
+                            owend: true,
+                            homeplanId: _homeplans[index]['id'],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ));
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 10,
+                  ),
+                  itemCount: _homeplans.length,
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

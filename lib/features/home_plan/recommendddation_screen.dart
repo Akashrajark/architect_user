@@ -121,6 +121,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
         },
         builder: (context, state) {
           return ListView(
+            padding: EdgeInsets.all(0),
             children: [
               NotificationListener<UserScrollNotification>(
                 onNotification: (notification) {
@@ -135,7 +136,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                   alignment: Alignment.bottomCenter,
                   children: [
                     SizedBox(
-                      height: 350,
+                      height: 370,
                       child: PageView.builder(
                         controller: _pageController,
                         itemCount: imageList.length,

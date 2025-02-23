@@ -1,3 +1,4 @@
+import 'package:dream_home_user/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../util/format_function.dart';
@@ -15,11 +16,14 @@ class HomePlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      elevation: 4,
+      shadowColor: shadowColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       child: InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
         child: Stack(
           children: [
             if (cardData['image_url'] != null)

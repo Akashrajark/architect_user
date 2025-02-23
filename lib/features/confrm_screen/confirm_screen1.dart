@@ -1,9 +1,35 @@
 import 'package:dream_home_user/common_widgets.dart/custom_button.dart';
 import 'package:dream_home_user/features/on_boarding_screen/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ConfirmScreen1 extends StatelessWidget {
+import '../home_screen.dart';
+
+class ConfirmScreen1 extends StatefulWidget {
   const ConfirmScreen1({super.key});
+
+  @override
+  State<ConfirmScreen1> createState() => _ConfirmScreen1State();
+}
+
+class _ConfirmScreen1State extends State<ConfirmScreen1> {
+  @override
+  void initState() {
+    Future.delayed(
+        const Duration(
+          milliseconds: 100,
+        ), () {
+      User? currentUser = Supabase.instance.client.auth.currentUser;
+      if (currentUser != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+            (route) => false);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
