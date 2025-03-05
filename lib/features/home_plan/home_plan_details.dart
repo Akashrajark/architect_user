@@ -4,6 +4,7 @@ import 'package:dream_home_user/common_widgets.dart/feature_card.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../common_widgets.dart/custom_alert_dialog.dart';
 import 'homeplans_bloc/homeplans_bloc.dart';
@@ -217,7 +218,11 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
                   color: Colors.green),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                launchWhatsApp(
+                    phone: _homeplan['architect']['phone'],
+                    message: _homeplan['name']);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
@@ -228,6 +233,17 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
         ),
       ),
     );
+  }
+}
+
+void launchWhatsApp({required String phone, required String message}) async {
+  final Uri url =
+      Uri.parse("https://wa.me/$phone?text=${Uri.encodeComponent(message)}");
+
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url, mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch WhatsApp';
   }
 }
 

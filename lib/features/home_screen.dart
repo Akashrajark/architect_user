@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     RecommendationScreen(),
     ArchitectureScreen(),
-    OwnedScreen(),
+    // OwnedScreen(),
     ProfileScreen(),
   ];
 
@@ -96,12 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.architecture_sharp,
                             text: 'Architect',
                           ),
-                          GButton(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(5),
-                            icon: LineIcons.archive,
-                            text: 'Owned',
-                          ),
+                          // GButton(
+                          //   padding: EdgeInsets.all(10),
+                          //   margin: EdgeInsets.all(5),
+                          //   icon: LineIcons.archive,
+                          //   text: 'Owned',
+                          // ),
                           GButton(
                             padding: EdgeInsets.all(10),
                             margin: EdgeInsets.all(5),
