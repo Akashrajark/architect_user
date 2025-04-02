@@ -4,6 +4,8 @@ import 'package:dream_home_user/common_widgets.dart/feature_card.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../common_widgets.dart/custom_alert_dialog.dart';
@@ -24,14 +26,72 @@ class HomePlanDetail extends StatefulWidget {
 
 class _HomePlanDetailState extends State<HomePlanDetail> {
   final HomeplansBloc _homeplansBloc = HomeplansBloc();
-
+  late Razorpay _razorpay;
   Map<String, dynamic> _homeplan = {};
   List _floors = [];
+  bool _isOwned = false;
 
   @override
   void initState() {
+    _isOwned = widget.owend;
+    _razorpay = Razorpay();
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     getHomeplans();
     super.initState();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Payment Successful: ${response.paymentId}")),
+    );
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Payment Failed: ${response.message}")),
+    );
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text("External Wallet Selected: ${response.walletName}")),
+    );
+  }
+
+  void _startPayment({
+    required int amount,
+    required String name,
+  }) {
+    var options = {
+      'key': 'rzp_test_7DHXFKNuMLiTBe', // Replace with your API Key
+      'amount': amount * 100, // 100 INR (in paise)
+      'name': name,
+      'description': 'Test Payment',
+      'prefill': {'contact': '9999999999', 'email': 'test@example.com'},
+      'theme': {'color': '#3399cc'},
+      'method': {
+        'card': true, // Enable card payments
+        'netbanking': false, // Disable net banking
+        'upi': true, // Disable UPI (Google Pay, PhonePe, etc.)
+        'wallet': false, // Disable wallets
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
   }
 
   void getHomeplans() {
@@ -64,48 +124,47 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider.value(
-        value: _homeplansBloc,
-        child: BlocConsumer<HomeplansBloc, HomeplansState>(
-          listener: (context, state) {
-            if (state is HomeplansFailureState) {
-              showDialog(
-                context: context,
-                builder: (context) => CustomAlertDialog(
-                  title: 'Failure',
-                  description: state.message,
-                  primaryButton: 'Try Again',
-                  onPrimaryPressed: () {
-                    getHomeplans();
+    return BlocProvider.value(
+      value: _homeplansBloc,
+      child: BlocConsumer<HomeplansBloc, HomeplansState>(
+        listener: (context, state) {
+          if (state is HomeplansFailureState) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomAlertDialog(
+                title: 'Failure',
+                description: state.message,
+                primaryButton: 'Try Again',
+                onPrimaryPressed: () {
+                  getHomeplans();
 
-                    Navigator.pop(context);
-                  },
-                ),
-              );
-            } else if (state is HomeplansGetByIdSuccessState) {
-              _homeplan = state.homeplan;
-              _floors = _homeplan['floors'];
-              Logger().w(_homeplan);
-              setState(() {});
-            } else if (state is HomeplansSuccessState) {
-              getHomeplans();
-            }
-          },
-          builder: (context, state) {
-            if (state is HomeplansLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is HomeplansGetSuccessState && _homeplan.isEmpty) {
-              return Center(
-                child: Text("No Homeplan found!"),
-              );
-            }
-            return SingleChildScrollView(
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          } else if (state is HomeplansGetByIdSuccessState) {
+            _homeplan = state.homeplan;
+            _floors = _homeplan['floors'];
+            Logger().w(_homeplan);
+            setState(() {});
+          } else if (state is HomeplansSuccessState) {
+            _isOwned = true;
+            getHomeplans();
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: SingleChildScrollView(
               child: Column(
                 children: [
+                  if (state is HomeplansLoadingState)
+                    Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  if (state is HomeplansGetSuccessState && _homeplan.isEmpty)
+                    Center(
+                      child: Text("No Homeplan found!"),
+                    ),
                   Stack(
                     children: [
                       if (_homeplan['image_url'] != null)
@@ -198,39 +257,59 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
                   ),
                 ],
               ),
-            );
-          },
-        ),
-      ),
-      bottomSheet: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-        ),
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '₹${formatInteger(_homeplan['price'])}',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                launchWhatsApp(
-                    phone: _homeplan['architect']['phone'],
-                    message: _homeplan['name']);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-              ),
-              child: Text('Buy Now'),
-            ),
-          ],
-        ),
+            bottomSheet: _isOwned
+                ? null
+                : Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                    ),
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '₹${formatInteger(_homeplan['price'])}',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // launchWhatsApp(
+                            //     phone: _homeplan['architect']['phone'],
+                            //     message: _homeplan['name']);
+
+                            _startPayment(
+                              amount: _homeplan['price'],
+                              name: _homeplan['name'],
+                            );
+                            _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                                (response) {
+                              BlocProvider.of<HomeplansBloc>(context).add(
+                                AddHomeplanEvent(
+                                  homeplanDetails: {
+                                    'home_plan_id': _homeplan['id'],
+                                    'user_id': Supabase
+                                        .instance.client.auth.currentUser!.id,
+                                    'amount': _homeplan['price'],
+                                  },
+                                ),
+                              );
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                          ),
+                          child: Text('Buy Now'),
+                        ),
+                      ],
+                    ),
+                  ),
+          );
+        },
       ),
     );
   }

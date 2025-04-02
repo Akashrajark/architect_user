@@ -1,6 +1,5 @@
 import 'package:dream_home_user/features/Profile/profile_screen.dart';
 import 'package:dream_home_user/features/architecture/architecture_screen.dart';
-import 'package:dream_home_user/features/owned/owned_screen.dart';
 import 'package:dream_home_user/features/home_plan/recommendddation_screen.dart';
 import 'package:dream_home_user/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../util/hide_if_keyboard_open.dart';
+import 'owned/owned_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     RecommendationScreen(),
     ArchitectureScreen(),
-    // OwnedScreen(),
+    OwnedScreen(),
     ProfileScreen(),
   ];
 
@@ -96,12 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.architecture_sharp,
                             text: 'Architect',
                           ),
-                          // GButton(
-                          //   padding: EdgeInsets.all(10),
-                          //   margin: EdgeInsets.all(5),
-                          //   icon: LineIcons.archive,
-                          //   text: 'Owned',
-                          // ),
+                          GButton(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(5),
+                            icon: LineIcons.archive,
+                            text: 'Owned',
+                          ),
                           GButton(
                             padding: EdgeInsets.all(10),
                             margin: EdgeInsets.all(5),

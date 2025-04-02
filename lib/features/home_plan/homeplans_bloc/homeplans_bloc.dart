@@ -58,6 +58,12 @@ class HomeplansBloc extends Bloc<HomeplansEvent, HomeplansState> {
           });
 
           emit(HomeplansGetSuccessState(homeplans: homeplans));
+        } else if (event is AddHomeplanEvent) {
+          await supabaseClient
+              .from('customer_home_plan')
+              .insert(event.homeplanDetails);
+
+          emit(HomeplansSuccessState());
         }
       } catch (e, s) {
         Logger().e('$e\n$s');

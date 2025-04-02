@@ -97,7 +97,9 @@ class _HomeplansState extends State<Homeplans> {
                               homeplanId: _homeplans[index]['id'],
                             ),
                           ),
-                        );
+                        ).then((value) {
+                          getHomeplans();
+                        });
                       },
                     ),
                     separatorBuilder: (context, index) => SizedBox(

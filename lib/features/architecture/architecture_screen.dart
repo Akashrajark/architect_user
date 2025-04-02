@@ -65,8 +65,9 @@ class _ArchitectureScreenState extends State<ArchitectureScreen> {
         },
         builder: (context, state) {
           return SafeArea(
+            top: false,
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
               child: Column(
                 children: [
                   CustomSearch(
@@ -88,6 +89,7 @@ class _ArchitectureScreenState extends State<ArchitectureScreen> {
                     ),
                   Expanded(
                     child: ListView.separated(
+                      padding: EdgeInsets.all(0),
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: _architects.length,
