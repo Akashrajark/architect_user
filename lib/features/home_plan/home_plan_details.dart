@@ -1,3 +1,4 @@
+import 'package:dream_home_user/common_widgets.dart/custom_button.dart';
 import 'package:dream_home_user/util/format_function.dart';
 import 'package:flutter/material.dart';
 import 'package:dream_home_user/common_widgets.dart/feature_card.dart';
@@ -259,7 +260,18 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
               ),
             ),
             bottomSheet: _isOwned
-                ? null
+                ? Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CustomButton(
+                      inverse: true,
+                      onPressed: () {
+                        launchWhatsApp(
+                            phone: _homeplan['architect']['phone'],
+                            message: _homeplan['name']);
+                      },
+                      label: 'Message',
+                    ),
+                  )
                 : Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
@@ -277,10 +289,6 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // launchWhatsApp(
-                            //     phone: _homeplan['architect']['phone'],
-                            //     message: _homeplan['name']);
-
                             _startPayment(
                               amount: _homeplan['price'],
                               name: _homeplan['name'],

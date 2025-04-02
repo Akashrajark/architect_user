@@ -300,6 +300,9 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     const SizedBox(height: 15),
                 itemCount: _homeplans.length,
               ),
+              SizedBox(
+                height: 150,
+              ),
             ],
           );
         },

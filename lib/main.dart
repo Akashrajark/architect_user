@@ -22,14 +22,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       home: const ConfirmScreen1(),
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            viewInsets: EdgeInsets.zero, // Fix keyboard overlap
-          ),
-          child: child!,
-        );
-      },
     );
   }
 }
