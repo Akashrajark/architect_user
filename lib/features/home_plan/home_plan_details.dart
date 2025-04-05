@@ -229,6 +229,39 @@ class _HomePlanDetailState extends State<HomePlanDetail> {
                           subtitle: Text(
                               formatValue(_homeplan['architect']?['email'])),
                         ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Plot Details',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [
+                            FeatureCard(
+                              icon: Icons.straighten, // represents length
+                              text:
+                                  "${formatValue(_homeplan['plot_length'])} m Length",
+                            ),
+                            FeatureCard(
+                              icon: Icons.straighten, // can use same for width
+                              text:
+                                  "${formatValue(_homeplan['plot_width'])} m Width",
+                            ),
+                            FeatureCard(
+                              icon: Icons.square_foot,
+                              text:
+                                  "${formatValue(_homeplan['plot_area'])} m² Area",
+                            ),
+                            FeatureCard(
+                              icon: Icons.directions, // road facing
+                              text:
+                                  "${formatValue(_homeplan['road_facing'])} Facing",
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           'Description',

@@ -1,37 +1,79 @@
 import 'package:flutter/material.dart';
 
-class CustomDropDownMenu<T> extends StatelessWidget {
-  final TextEditingController? controller;
-  final T? initialSelection;
-  final Function(T? selected) onSelected;
-  final String hintText;
-
-  final List<DropdownMenuEntry<T>> dropdownMenuEntries;
+class CustomDropDownMenu extends StatelessWidget {
+  final String hintText, title;
+  final bool isRequired, isExpanded, isDense;
+  final dynamic selectedValue;
+  final IconData iconData;
+  final List<DropdownMenuItem<dynamic>> dropdownMenuItems;
+  final Function(dynamic) onSelected;
   const CustomDropDownMenu({
     super.key,
+    this.isDense = true,
+    this.isExpanded = false,
     required this.hintText,
-    required this.dropdownMenuEntries,
+    required this.title,
+    required this.dropdownMenuItems,
     required this.onSelected,
-    this.controller,
-    this.initialSelection,
+    this.isRequired = false,
+    this.selectedValue,
+    required this.iconData,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu(
-      initialSelection: initialSelection,
-      onSelected: onSelected,
-      controller: controller,
-      width: double.infinity,
-      hintText: hintText,
-      textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
+    return ConstrainedBox(
+      constraints: const BoxConstraints.tightFor(width: 400),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-      inputDecorationTheme: const InputDecorationTheme(
-        filled: true,
+          const SizedBox(
+            height: 5,
+          ),
+          DropdownButtonFormField(
+            isExpanded: isExpanded,
+            isDense: isDense,
+            value: selectedValue,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) {
+              if (isRequired && value == null) {
+                return 'This field is required';
+              } else {
+                return null;
+              }
+            },
+            hint: Text(
+              hintText,
+            ),
+            items: dropdownMenuItems,
+            onChanged: onSelected,
+            decoration: InputDecoration(
+              prefixIcon: Icon(iconData),
+              // contentPadding: const EdgeInsets.symmetric(
+              //   vertical: 15,
+              //   horizontal: 20,
+              // ),
+            ),
+          ),
+          // DropdownMenu(
+          //   onSelected: onSelected,
+          //   hintText: hintText,
+          //   menuStyle: const MenuStyle(
+          //     padding: MaterialStatePropertyAll(
+          //         EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
+          //     backgroundColor: MaterialStatePropertyAll(
+          //       backgroundColorLight,
+          //     ),
+          //   ),
+          //   width: 400,
+          //   dropdownMenuEntries: dropdownMenuEntries,
+          // ),
+        ],
       ),
-      dropdownMenuEntries: dropdownMenuEntries,
     );
   }
 }

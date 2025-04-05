@@ -225,9 +225,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                   child: CircularProgressIndicator(),
                 ),
               if (state is HomeplansGetSuccessState && _homeplans.isEmpty)
-                Center(
-                  child: Text("No Homeplan found!"),
-                ),
+                SizedBox(),
               if (params['query'] == null)
                 SizedBox(
                   height: 100,
@@ -293,7 +291,10 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                           homeplanId: _homeplans[index]['id'],
                         ),
                       ),
-                    );
+                    ).then((value) {
+                      getHomeplans();
+                    });
+                    ;
                   },
                 ),
                 separatorBuilder: (context, index) =>

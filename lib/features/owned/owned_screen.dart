@@ -65,8 +65,11 @@ class _OwnedScreenState extends State<OwnedScreen> {
                   child: CircularProgressIndicator(),
                 ),
               if (state is HomeplansGetSuccessState && _homeplans.isEmpty)
-                Center(
-                  child: Text("No Homeplan found!"),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Text("No Homeplan found!"),
+                  ),
                 ),
               Expanded(
                 child: ListView.separated(

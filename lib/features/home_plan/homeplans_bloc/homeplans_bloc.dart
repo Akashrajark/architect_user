@@ -48,6 +48,10 @@ class HomeplansBloc extends Bloc<HomeplansEvent, HomeplansState> {
             'p_total_bathrooms': event.params['bathrooms'],
             'p_total_bedrooms': event.params['bedrooms'],
             'p_user_id': supabaseClient.auth.currentUser!.id,
+            'p_plot_length': event.params['plot_length'],
+            'p_plot_width': event.params['plot_width'],
+            'p_plot_area': event.params['plot_area'],
+            'p_road_facing': event.params['road_facing'],
           });
 
           emit(HomeplansGetSuccessState(homeplans: homeplans));

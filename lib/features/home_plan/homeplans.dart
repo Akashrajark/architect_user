@@ -9,8 +9,18 @@ import 'homeplans_bloc/homeplans_bloc.dart';
 
 class Homeplans extends StatefulWidget {
   final int? categoryId;
-  final int? bathrooms, bedrooms;
-  const Homeplans({super.key, this.categoryId, this.bathrooms, this.bedrooms});
+  final int? bathrooms, bedrooms, plotLength, plotWidth, plotArea;
+  final String? roadFacing;
+
+  const Homeplans(
+      {super.key,
+      this.categoryId,
+      this.bathrooms,
+      this.bedrooms,
+      this.plotLength,
+      this.plotWidth,
+      this.plotArea,
+      this.roadFacing});
 
   @override
   State<Homeplans> createState() => _HomeplansState();
@@ -24,6 +34,10 @@ class _HomeplansState extends State<Homeplans> {
     'category_id': null,
     'bathrooms': null,
     'bedrooms': null,
+    'plot_length': null,
+    'plot_width': null,
+    'plot_area': null,
+    'road_facing': null,
   };
 
   List<Map<String, dynamic>> _homeplans = [];
@@ -33,6 +47,10 @@ class _HomeplansState extends State<Homeplans> {
     params['category_id'] = widget.categoryId;
     params['bathrooms'] = widget.bathrooms;
     params['bedrooms'] = widget.bedrooms;
+    params['plot_length'] = widget.plotLength;
+    params['plot_width'] = widget.plotWidth;
+    params['plot_area'] = widget.plotArea;
+    params['road_facing'] = widget.roadFacing;
     getHomeplans();
     super.initState();
   }

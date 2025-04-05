@@ -2,6 +2,7 @@ import 'package:dream_home_user/common_widgets.dart/custom_button.dart';
 import 'package:dream_home_user/features/home_plan/homeplans.dart';
 import 'package:flutter/material.dart';
 
+import '../../common_widgets.dart/custom_dropdownmenu.dart';
 import '../category/category_view_all_screen.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -15,8 +16,22 @@ class FilterScreen extends StatefulWidget {
 class _FilterScreenState extends State<FilterScreen> {
   final TextEditingController _bedroomController = TextEditingController();
   final TextEditingController _bathroomController = TextEditingController();
+  final TextEditingController _plotLengthController = TextEditingController();
+  final TextEditingController _plotWidthController = TextEditingController();
+  final TextEditingController _plotAreaController = TextEditingController();
 
   List _categories = [];
+  String? _selectedRoadFacing;
+  final List roadFacingOptions = [
+    {'name': 'North'},
+    {'name': 'South'},
+    {'name': 'East'},
+    {'name': 'West'},
+    {'name': 'Northeast'},
+    {'name': 'Northwest'},
+    {'name': 'Southeast'},
+    {'name': 'Southwest'},
+  ];
 
   int? selectedIndex;
 
@@ -27,8 +42,23 @@ class _FilterScreenState extends State<FilterScreen> {
     int? bathrooms = _bathroomController.text.isNotEmpty
         ? int.tryParse(_bathroomController.text)
         : null;
+    int? plotLength = _plotLengthController.text.isNotEmpty
+        ? int.tryParse(_plotLengthController.text)
+        : null;
+    int? plotWidth = _plotWidthController.text.isNotEmpty
+        ? int.tryParse(_plotWidthController.text)
+        : null;
+    int? plotArea = _plotAreaController.text.isNotEmpty
+        ? int.tryParse(_plotAreaController.text)
+        : null;
 
-    if (bedrooms == null && bathrooms == null && selectedIndex == null) {
+    if (bedrooms == null &&
+        bathrooms == null &&
+        selectedIndex == null &&
+        plotLength == null &&
+        plotWidth == null &&
+        plotArea == null &&
+        _selectedRoadFacing == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please select at least one filter")),
       );
@@ -41,7 +71,12 @@ class _FilterScreenState extends State<FilterScreen> {
         builder: (context) => Homeplans(
           bedrooms: bedrooms,
           bathrooms: bathrooms,
-          categoryId: _categories[selectedIndex!]['id'],
+          categoryId:
+              selectedIndex != null ? _categories[selectedIndex!]['id'] : null,
+          plotLength: plotLength,
+          plotWidth: plotWidth,
+          plotArea: plotArea,
+          roadFacing: _selectedRoadFacing,
         ),
       ),
     );
@@ -80,6 +115,58 @@ class _FilterScreenState extends State<FilterScreen> {
             controller: _bathroomController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(labelText: "Bathroom Count"),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "Ploat Length",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          SizedBox(height: 5),
+          TextField(
+            controller: _plotLengthController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: "Ploat Length"),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "Ploat Width",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          SizedBox(height: 5),
+          TextField(
+            controller: _plotWidthController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: "Ploat Width"),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "Ploat Area",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          SizedBox(height: 5),
+          TextField(
+            controller: _plotAreaController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(labelText: "Ploat Area"),
+          ),
+          SizedBox(height: 15),
+          CustomDropDownMenu(
+            iconData: Icons.explore,
+            isExpanded: true,
+            isRequired: true,
+            selectedValue: _selectedRoadFacing,
+            title: 'Road Facing',
+            hintText: "Select Road Facing",
+            onSelected: (selected) {
+              _selectedRoadFacing = selected;
+            },
+            dropdownMenuItems: List.generate(
+              roadFacingOptions.length,
+              (index) => DropdownMenuItem(
+                value: roadFacingOptions[index]['name'],
+                child: Text(roadFacingOptions[index]['name']),
+              ),
+            ),
           ),
           SizedBox(height: 12),
           Text(
