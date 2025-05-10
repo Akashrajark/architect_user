@@ -48,6 +48,9 @@ dependencies:
   flutter_swiper_plus: ^2.0.4
   url_launcher: ^6.3.1
   razorpay_flutter: ^1.4.0
+  lottie: ^3.3.1
+  stability_image_generation: ^0.0.4
+  google_generative_ai: ^0.4.7
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +76,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/animation/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

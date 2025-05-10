@@ -1,4 +1,5 @@
 import 'package:dream_home_user/features/Profile/profile_edit_page.dart';
+import 'package:dream_home_user/features/image_generation/generated_homeplans.dart';
 import 'package:dream_home_user/features/on_boarding_screen/on_boarding_screen.dart';
 import 'package:dream_home_user/theme/app_theme.dart';
 import 'package:dream_home_user/util/format_function.dart';
@@ -71,19 +72,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ), // No edit option
               const SizedBox(height: 25),
 
+              CustomInfoTile(icon: Icons.person, label: "Name", value: formatValue(_profile['name'])),
+              CustomInfoTile(icon: Icons.email, label: "Email", value: formatValue(_profile['email'])),
+              CustomInfoTile(icon: Icons.phone, label: "Phone", value: '+91 ${formatValue(_profile['phone'])}'),
               CustomInfoTile(
-                  icon: Icons.person,
-                  label: "Name",
-                  value: formatValue(_profile['name'])),
-              CustomInfoTile(
-                  icon: Icons.email,
-                  label: "Email",
-                  value: formatValue(_profile['email'])),
-              CustomInfoTile(
-                  icon: Icons.phone,
-                  label: "Phone",
-                  value: '+91 ${formatValue(_profile['phone'])}'),
-
+                icon: Icons.home,
+                label: "My Home Plans",
+                value: "",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GeneratedHomeplansScreen()),
+                  );
+                }, // Add navigation or logic here
+              ),
               CustomInfoTile(
                 icon: Icons.lock,
                 label: "Edit Profile",
@@ -203,9 +205,7 @@ class CustomInfoTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           decoration: BoxDecoration(
             border: Border.all(width: 2, color: outlineColor),
-            color: isDestructive
-                ? Colors.redAccent.withAlpha(200)
-                : Colors.white.withAlpha(200),
+            color: isDestructive ? Colors.redAccent.withAlpha(200) : Colors.white.withAlpha(200),
             borderRadius: BorderRadius.circular(32),
             boxShadow: const [
               BoxShadow(
@@ -217,9 +217,7 @@ class CustomInfoTile extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(icon,
-                  color: isDestructive ? Colors.white : Colors.black54,
-                  size: 22),
+              Icon(icon, color: isDestructive ? Colors.white : Colors.black54, size: 22),
               const SizedBox(width: 12),
               Text(
                 label,
@@ -233,10 +231,7 @@ class CustomInfoTile extends StatelessWidget {
               if (value.isNotEmpty)
                 Text(
                   value,
-                  style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
+                  style: const TextStyle(color: Colors.black87, fontSize: 16, fontWeight: FontWeight.w500),
                 ),
             ],
           ),

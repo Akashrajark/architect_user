@@ -5,6 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../common_widgets.dart/custom_alert_dialog.dart';
 import '../../common_widgets.dart/custom_button.dart';
 import '../../common_widgets.dart/custom_text_formfield.dart';
+import '../../common_widgets.dart/forgot_password.dart';
+import '../../common_widgets.dart/text_link.dart';
 import '../../theme/app_theme.dart';
 import '../../util/value_validator.dart';
 import '../home_screen.dart';
@@ -127,12 +129,24 @@ class _SigninScreenState extends State<SigninScreen> {
                                       isObscure = !isObscure;
                                       setState(() {});
                                     },
-                                    icon: Icon(isObscure
-                                        ? Icons.visibility_off
-                                        : Icons.visibility)),
+                                    icon: Icon(isObscure ? Icons.visibility_off : Icons.visibility)),
                                 border: const OutlineInputBorder(),
                                 hintText: 'Password',
                               )),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: TextLink(
+                              text: 'Forgot Password?',
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => const ForgotPasswordDialog(),
+                                );
+                              },
+                            ),
+                          ),
                           SizedBox(
                             height: 15,
                           ),

@@ -5,7 +5,8 @@ import 'package:dream_home_user/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-
+import 'package:lottie/lottie.dart';
+import 'image_generation/image_genration.dart';
 import '../util/hide_if_keyboard_open.dart';
 import 'owned/owned_screen.dart';
 
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
@@ -32,11 +33,44 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: backgroundColor,
       extendBodyBehindAppBar: true,
       extendBody: true,
-      appBar: _selectedIndex == 0
-          ? null
-          : AppBar(
-              backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        actions: [
+          if (_selectedIndex == 0)
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                  child: Material(
+                    color: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      side: BorderSide(
+                        width: 2,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                    child: InkWell(
+                      splashColor: Colors.white.withAlpha(100),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HousePlanChatScreen()));
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Lottie.asset(
+                          'assets/animation/gemini.json',
+                          fit: BoxFit.cover,
+                          frameRate: FrameRate(60),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+        ],
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -54,20 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black.withAlpha(200),
                     borderRadius: BorderRadius.circular(64),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: GNav(
                         rippleColor: Colors.grey[800]!,
                         hoverColor: Colors.grey[700]!,
                         haptic: true,
                         tabBorderRadius: 25,
-                        tabActiveBorder:
-                            Border.all(color: onprimaryColor, width: 1),
+                        tabActiveBorder: Border.all(color: onprimaryColor, width: 1),
                         tabBorder: Border.all(color: Colors.grey, width: 1),
-                        tabShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withAlpha(5), blurRadius: 8)
-                        ],
+                        tabShadow: [BoxShadow(color: Colors.grey.withAlpha(5), blurRadius: 8)],
                         curve: Curves.easeOutExpo,
                         duration: const Duration(milliseconds: 200),
                         gap: 8,
@@ -75,8 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         activeColor: Colors.white,
                         iconSize: 24,
                         tabBackgroundColor: Colors.black.withAlpha(0),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         selectedIndex: _selectedIndex,
                         onTabChange: (index) {
                           setState(() {

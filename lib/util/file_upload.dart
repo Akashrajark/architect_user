@@ -7,12 +7,29 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<String> uploadFile(String folder, File file, String fileName) async {
   Uint8List uploadFile = await file.readAsBytes();
   try {
-    StorageFileApi storageBucket =
-        Supabase.instance.client.storage.from('docs');
+    StorageFileApi storageBucket = Supabase.instance.client.storage.from('docs');
 
     String filePath = await storageBucket.uploadBinary(
       '$folder/${DateTime.now().millisecondsSinceEpoch.toString()}${formatFileName(fileName)}',
       uploadFile,
+    );
+
+    filePath = filePath.replaceRange(0, 5, '');
+
+    return storageBucket.getPublicUrl(filePath);
+  } catch (e, s) {
+    Logger().e('$e\n$s');
+    rethrow;
+  }
+}
+
+Future<String> uploadFileUint8List(String folder, Uint8List file) async {
+  try {
+    StorageFileApi storageBucket = Supabase.instance.client.storage.from('docs');
+
+    String filePath = await storageBucket.uploadBinary(
+      '$folder/${DateTime.now().millisecondsSinceEpoch.toString()}',
+      file,
     );
 
     filePath = filePath.replaceRange(0, 5, '');
