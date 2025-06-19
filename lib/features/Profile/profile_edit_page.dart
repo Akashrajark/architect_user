@@ -26,8 +26,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   @override
   void initState() {
-    _nameController.text = widget.profileDetails['name'];
-    _phoneController.text = widget.profileDetails['phone'];
+    _nameController.text = widget.profileDetails['name'] ?? '';
+    _phoneController.text = widget.profileDetails['phone'] ?? '';
 
     super.initState();
   }
@@ -48,10 +48,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               title: const Text(
                 'EDIT PROFILE',
                 style: TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                    fontSize: 18),
+                    fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, color: primaryColor, fontSize: 18),
               ),
               elevation: 0,
               centerTitle: true,
@@ -85,8 +82,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: IconButton(
-                                icon: const Icon(Icons.close,
-                                    color: Colors.white),
+                                icon: const Icon(Icons.close, color: Colors.white),
                                 onPressed: () {
                                   setState(() {
                                     file = null;
