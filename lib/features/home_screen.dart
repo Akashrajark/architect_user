@@ -36,37 +36,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         actions: [
           if (_selectedIndex == 0)
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 5, bottom: 5),
-                  child: Material(
-                    color: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      side: BorderSide(
-                        width: 2,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                    child: InkWell(
-                      splashColor: Colors.white.withAlpha(100),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HousePlanChatScreen()));
-                      },
-                      borderRadius: BorderRadius.circular(100),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Lottie.asset(
-                          'assets/animation/gemini.json',
-                          fit: BoxFit.cover,
-                          frameRate: FrameRate(60),
-                        ),
-                      ),
-                    ),
-                  ),
+            InkWell(
+              splashColor: Colors.white.withAlpha(100),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HousePlanChatScreen()));
+              },
+              borderRadius: BorderRadius.circular(100),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Lottie.asset(
+                  'assets/animation/ai.json',
+                  fit: BoxFit.cover,
+                  frameRate: FrameRate(60),
                 ),
-              ],
+              ),
             ),
         ],
         backgroundColor: Colors.transparent,
