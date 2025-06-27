@@ -188,7 +188,7 @@ Output ONLY the final JSON object enclosed in ```json ... ```. Do not add any in
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text('Gemini House Planner'),
+        title: const Text('AI House Planner'),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
