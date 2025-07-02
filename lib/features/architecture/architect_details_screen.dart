@@ -33,8 +33,7 @@ class _ArchitectDetailsScreenState extends State<ArchitectDetailsScreen> {
   }
 
   void getArchitects() {
-    _architectsBloc.add(GetAllArchitectHomeplansEvent(
-        params: params, architectId: widget.architectDetails['user_id']));
+    _architectsBloc.add(GetAllArchitectHomeplansEvent(params: params, architectId: widget.architectDetails['user_id']));
   }
 
   @override
@@ -91,31 +90,26 @@ class _ArchitectDetailsScreenState extends State<ArchitectDetailsScreen> {
                     fit: BoxFit.cover,
                   ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         formatValue(widget.architectDetails['name']),
-                        style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         formatValue(widget.architectDetails['email']),
                         style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
-                      Text(
-                        formatValue(widget.architectDetails['phone']),
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
+                      // Text(
+                      //   formatValue(widget.architectDetails['phone']),
+                      //   style: TextStyle(fontSize: 18, color: Colors.grey),
+                      // ),
                       const SizedBox(height: 10),
                       const Text(
                         'Projects',
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey),
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blueGrey),
                       ),
                       const SizedBox(height: 10),
                       ListView.separated(
@@ -135,8 +129,7 @@ class _ArchitectDetailsScreenState extends State<ArchitectDetailsScreen> {
                           },
                           cardData: _homeplans[index],
                         ),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (context, index) => const SizedBox(height: 10),
                         itemCount: _homeplans.length,
                       ),
                     ],

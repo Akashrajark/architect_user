@@ -89,7 +89,7 @@ class _ArchitectureScreenState extends State<ArchitectureScreen> {
                     ),
                   Expanded(
                     child: ListView.separated(
-                      padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.only(bottom: 100),
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: _architects.length,

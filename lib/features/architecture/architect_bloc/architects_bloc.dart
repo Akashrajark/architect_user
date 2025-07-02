@@ -14,12 +14,10 @@ class ArchitectsBloc extends Bloc<ArchitectsEvent, ArchitectsState> {
       try {
         emit(ArchitectsLoadingState());
         SupabaseClient supabaseClient = Supabase.instance.client;
-        SupabaseQueryBuilder table =
-            Supabase.instance.client.from('architects');
+        SupabaseQueryBuilder table = Supabase.instance.client.from('architects');
 
         if (event is GetAllArchitectsEvent) {
-          PostgrestFilterBuilder<List<Map<String, dynamic>>> query =
-              table.select('*');
+          PostgrestFilterBuilder<List<Map<String, dynamic>>> query = table.select('*').neq('status', 'Rejected');
 
           if (event.params['query'] != null) {
             query = query.ilike('name', '%${event.params['query']}%');
@@ -28,8 +26,7 @@ class ArchitectsBloc extends Bloc<ArchitectsEvent, ArchitectsState> {
             await query.limit(event.params['limit']);
           }
 
-          List<Map<String, dynamic>> architects =
-              await query.order('name', ascending: true);
+          List<Map<String, dynamic>> architects = await query.order('name', ascending: true);
 
           emit(ArchitectsGetSuccessState(architects: architects));
         } else if (event is AddArchitectsEvent) {
@@ -45,8 +42,7 @@ class ArchitectsBloc extends Bloc<ArchitectsEvent, ArchitectsState> {
           emit(ArchitectsSuccessState());
         }
         if (event is GetAllArchitectHomeplansEvent) {
-          List<Map<String, dynamic>> homeplans =
-              await supabaseClient.rpc("get_homeplans_with_counts", params: {
+          List<Map<String, dynamic>> homeplans = await supabaseClient.rpc("get_homeplans_with_counts", params: {
             'p_architect_user_id': event.architectId,
             'p_search': event.params['query'],
             'p_user_id': supabaseClient.auth.currentUser!.id,
